@@ -1,26 +1,22 @@
 name: Azure CI/CD Pipeline
 
-# Trigga pipelinen när kod pushas till main-branchen, eller manuellt
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
-# Krävs för att OIDC (Zero Trust-inloggningen vi satte upp) ska fungera
 permissions:
   id-token: write
   contents: read
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # Vi använder GitHubs servrar just nu (vi kan byta till din Ubuntu-VM senare!)
+    runs-on: ubuntu-latest
     steps:
-      # 1. Hämtar din kod
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Loggar in på Azure med variablerna vi lade in i GitHub
       - name: Log in to Azure
         uses: azure/login@v2
         with:
@@ -28,7 +24,6 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      # 3. Skapar en resursgrupp i Sverige
       - name: Create Resource Group
         uses: azure/cli@v2
         with:
@@ -36,7 +31,13 @@ jobs:
           inlineScript: |
             az group create --name rg-cicd-lab --location swedencentral
 
-      # 4. Rullar ut Bicep-filen till resursgruppen
+      - name: Validate and What-If
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az deployment group what-if --resource-group rg-cicd-lab --template-file ./test-storage.bicep
+
       - name: Deploy Infrastructure
         uses: azure/cli@v2
         with:
