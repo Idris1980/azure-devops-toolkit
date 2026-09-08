@@ -29,4 +29,4 @@ jobs:
           az group create --name "rg-bicep-network-test" --location "northeurope"
           
           echo "2. Rullar ut Bicep-koden..."
-          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/network.bicep
+          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/enterprise-network.bicep
