@@ -4,7 +4,7 @@
 # Beskrivning: Skapar Azure SQL Server + DB, stänger av publik brandvägg
 #              och ansluter via Private Endpoint i snet-database.
 # ==============================================================================
-
+#Detta är ett test för min nya branch. Jag vill se om jag kan pusha ändringar till den.
 # -- KONFIGURATION --
 RG="rg-enterprise-demo"
 REGION="northeurope"
