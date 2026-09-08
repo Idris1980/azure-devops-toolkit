@@ -26,10 +26,10 @@ jobs:
       - name: Bygg infrastruktur i Azure
         run: |
           echo "1. Förbereder resursgruppen..."
-          az group create --name "rg-bicep-network-test" --location "northeurope"
+          az group create --name "rg-bicep-sweden" --location "swedencentral"
           
           echo "2. Rullar ut Enterprise-nätverket..."
-          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/enterprise-network.bicep
+          az deployment group create --resource-group "rg-bicep-sweden" --template-file ./07-bicep/enterprise-network.bicep
           
           echo "3. Rullar ut Kubernetes-klustret (AKS)..."
-          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/aks.bicep
+          az deployment group create --resource-group "rg-bicep-sweden" --template-file ./07-bicep/aks.bicep
