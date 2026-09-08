@@ -27,3 +27,4 @@ Arkitekturen bygger på att **inga databaser eller lagringskonton exponeras publ
        │
        ▼
  [ AZURE SQL DATABASE ]  <-- (Publik åtkomst: 100% AVSTÄNGD!)
+ Uppdatering: Vi testar versionhantering steg för steg
