@@ -1,18 +1,16 @@
 name: Azure CI/CD Test Pipeline
 
-# När ska pipelinen köras?
 on:
   pull_request:
     branches:
       - main
 
-# Krävs för att GitHub ska få prata säkert med Azure (OIDC)
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  test-azure-connection:
+  deploy-infrastructure:
     runs-on: ubuntu-latest
     steps:
       - name: Ladda ner koden till roboten
@@ -25,7 +23,10 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Testa uppkopplingen
+      - name: Bygg nätverket i Azure
         run: |
-          echo "Inloggning lyckades! Här är information om kontot:"
-          az account show
+          echo "1. Förbereder en låda (Resursgrupp) för nätverket..."
+          az group create --name "rg-bicep-network-test" --location "northeurope"
+          
+          echo "2. Rullar ut Bicep-koden..."
+          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/network.bicep
