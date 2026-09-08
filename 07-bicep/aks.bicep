@@ -17,3 +17,5 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2023-10-01' = {
         mode: 'System'
       }
     ]
+  }
+}
