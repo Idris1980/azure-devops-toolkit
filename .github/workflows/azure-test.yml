@@ -23,10 +23,13 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Bygg nätverket i Azure
+      - name: Bygg infrastruktur i Azure
         run: |
-          echo "1. Förbereder en låda (Resursgrupp) för nätverket..."
+          echo "1. Förbereder resursgruppen..."
           az group create --name "rg-bicep-network-test" --location "northeurope"
           
-          echo "2. Rullar ut Bicep-koden..."
+          echo "2. Rullar ut Enterprise-nätverket..."
           az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/enterprise-network.bicep
+          
+          echo "3. Rullar ut Kubernetes-klustret (AKS)..."
+          az deployment group create --resource-group "rg-bicep-network-test" --template-file ./07-bicep/aks.bicep
